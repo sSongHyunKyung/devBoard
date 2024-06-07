@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments.html :: head"></head>
+
+<body class="bg-light">
+	<div th:replace="fragments.html :: nav"></div>
+
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>会員登録</h2>
+        </div>
+        <div class="row justify-content-center">
+            <form class="needs-validation col-sm-6" action="#"
+                  th:action="@{/sign-up}" th:object="${signUpForm}" method="post" novalidate>
+    
+                <div class="form-group">
+                    <label for="email">メールアドレス</label>
+                    <input id="email" type="email" th:field="*{email}" class="form-control"
+                           placeholder="your@email.com" aria-describedby="emailHelp" required>
+                    <small class="invalid-feedback">メールアドレスを入力してください。</small>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nickname">nickname</label>
+                    <input id="nickname" type="text" th:field="*{nickname}" class="form-control"
+                           placeholder="whiteship" aria-describedby="nicknameHelp" required minlength="3" maxlength="20">
+                    <small id="nicknameHelp" class="form-text text-muted">
+                        空白なく文字と数字だけで3文字以上20文字以内で入力してください。
+                    </small>
+                    <small class="invalid-feedback">nicknameを入力してください。</small>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">Nickname Error</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">パスワード</label>
+                    <input id="password" type="password" th:field="*{password}" class="form-control"
+                           aria-describedby="passwordHelp" required minlength="8" maxlength="50">
+                    <small id="passwordHelp" class="form-text text-muted">
+                       8文字以上50文字以内で入力してください。 英文字、数字、特殊記号を使用でき、空白は使用できません。
+                    </small>
+                    <small class="invalid-feedback">パスワードを入力してください。</small>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</small>
+                </div>
+                
+                 
+				<div class="form-group">
+				    <label for="repassword">パスワード確認</label>
+				    <input id="repassword" type="password" class="form-control"
+				           aria-describedby="repasswordHelp" required minlength="8" maxlength="50" onkeyup="checkPasswordMatch()">
+				    <small id="repasswordHelp" class="form-text text-muted">
+				       パスワードをもう一度入力してください。
+				    </small>
+				    <small class="form-text text-danger" id="passwordMatchError" style="display: none;">パスワードが一致しません。</small>
+				</div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit"
+                            aria-describedby="submitHelp">登録</button>
+                </div>
+            </form>
+        </div>
+        
+    <div th:replace="fragments.html :: footer"></div>    
+
+
+    </div>
+  	
+  	<script th:replace="fragments.html :: form-validation"></script>
+    <script th:inline="javascript">
+    function checkPasswordMatch() {
+        var password = document.getElementById("password").value;
+        var repassword = document.getElementById("repassword").value;
+
+        if (password !== repassword) {
+            document.getElementById("passwordMatchError").style.display = "block";
+        } else {
+            document.getElementById("passwordMatchError").style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>
